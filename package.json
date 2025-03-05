@@ -22,6 +22,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@tailwindcss/postcss": "^4.0.9",
     "autoprefixer": "^10",
     "eslint": "^9",
     "postcss": "^8.5.3",
