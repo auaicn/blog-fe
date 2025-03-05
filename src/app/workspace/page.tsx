@@ -1,4 +1,3 @@
-// src/app/workspace/page.tsx
 export default function Workspace() {
   return (
     <div>

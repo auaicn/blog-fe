@@ -1,4 +1,3 @@
-// src/app/blog/[slug]/page.tsx
 type Props = {
   params: { slug: string };
 };

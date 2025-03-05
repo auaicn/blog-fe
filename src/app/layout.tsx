@@ -1,5 +1,14 @@
-// src/app/layout.tsx
 import "../styles/globals.css";
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Workspace",
+  description: "Own blog, works, abouts",
+  icons: {
+    icon: "/images/icon_white_rounded.png",
+  },
+};
 
 export default function RootLayout({
   children,

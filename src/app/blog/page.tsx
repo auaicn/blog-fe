@@ -1,4 +1,3 @@
-// src/app/blog/page.tsx
 export default function BlogList() {
   const posts = [
     { slug: "first-post", title: "First Post" },
