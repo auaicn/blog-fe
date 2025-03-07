@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
-import "../styles/globals.css";
+import "@/styles/globals.css";
 
 import { Metadata } from "next";
 
