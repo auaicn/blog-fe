@@ -3,21 +3,15 @@ import { twMerge } from "tailwind-merge";
 
 import "@/styles/globals.css";
 
-import { Metadata } from "next";
+import { auth, signOut } from "../../auth";
 
-export const metadata: Metadata = {
-  title: "Workspace",
-  description: "Own blog, works, abouts",
-  icons: {
-    icon: "/images/icon_white_rounded.png",
-  },
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
     <html lang="en" className="h-full">
       <body
@@ -26,9 +20,30 @@ export default function RootLayout({
         )}
       >
         <nav className={twMerge("p-[20px] bg-blue-500 text-white flex gap-4")}>
-          <Link href="/about">About</Link>
-          <Link href="/">Home</Link>
-          <Link href="/workspace">Workspace</Link>
+          <div className="flex gap-1 justify-between w-full">
+            <div className="flex gap-1">
+              <Link href="/about">About</Link>
+              <Link href="/blog">Blog</Link>
+              {session?.user!! && (
+                <>
+                  <Link href="/md">Drafts</Link>
+                  <Link href="/link">Links</Link>
+                </>
+              )}
+            </div>
+            {session?.user!! ? (
+              <form
+                action={async () => {
+                  "use server";
+                  await signOut({ redirectTo: "/" });
+                }}
+              >
+                <button className="hover:text-blue-600">log out</button>
+              </form>
+            ) : (
+              <Link href="/login">Login</Link>
+            )}
+          </div>
         </nav>
 
         <main className={twMerge("flex-grow min-h-0 p-4 overflow-auto")}>
