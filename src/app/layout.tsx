@@ -27,6 +27,7 @@ export default function RootLayout({
       >
         <nav className={twMerge("p-[20px] bg-blue-500 text-white flex gap-4")}>
           <Link href="/about">About</Link>
+          <Link href="/login">Login</Link>
           <Link href="/">Home</Link>
           <Link href="/workspace">Workspace</Link>
         </nav>
