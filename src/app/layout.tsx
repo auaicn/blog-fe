@@ -24,6 +24,7 @@ export default async function RootLayout({
             <div className="flex gap-1">
               <Link href="/about">About</Link>
               <Link href="/blog">Blog</Link>
+              <Link href="/transposer">Transposer</Link>
               {session?.user!! && (
                 <>
                   <Link href="/md">Drafts</Link>
