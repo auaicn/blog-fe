@@ -10,7 +10,10 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
 
-      const isPublic = nextUrl.pathname.startsWith("/blog");
+      const isPublic =
+        nextUrl.pathname.startsWith("/blog") ||
+        nextUrl.pathname.startsWith("/about") ||
+        nextUrl.pathname.startsWith("/transposer");
 
       console.log("isPublic", isPublic);
       if (isPublic) {
