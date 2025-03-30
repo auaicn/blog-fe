@@ -11,6 +11,7 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
 
       const isPublic =
+        nextUrl.pathname === "/" ||
         nextUrl.pathname.startsWith("/blog") ||
         nextUrl.pathname.startsWith("/about") ||
         nextUrl.pathname.startsWith("/transposer");
