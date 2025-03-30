@@ -43,4 +43,19 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token, user }) {
+      // Attach the user information to the session
+      console.log("Session:", session);
+      console.log("Token:", token);
+      console.log("User:", user);
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+  },
 });

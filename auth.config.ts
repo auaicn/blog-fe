@@ -16,7 +16,9 @@ export const authConfig = {
         nextUrl.pathname.startsWith("/about") ||
         nextUrl.pathname.startsWith("/transposer");
 
-      console.log("isPublic", isPublic);
+      console.log({ isPublic });
+      console.log({ isLoggedIn });
+
       if (isPublic) {
         return true;
       }
