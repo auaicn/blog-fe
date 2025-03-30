@@ -6,14 +6,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="h-screen overflow-hidden">
-        <div className="h-full flex items-center justify-center ">
-          <div className="max-w-md w-full space-y-8 p-8  rounded-lg shadow">
-            {children}
-          </div>
-        </div>
-      </body>
-    </html>
+    <div className="h-screen overflow-hidden flex items-center justify-center">
+      <div className="max-w-md w-full gap-8 p-[16px] rounded-lg">
+        {children}
+      </div>
+    </div>
   );
 }
