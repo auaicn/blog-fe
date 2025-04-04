@@ -1,8 +1,9 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin, Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
-import type { User } from "@/app/lib/definitions";
+import type { User } from "app/lib/definitions";
 import bcrypt from "bcryptjs";
 import postgres from "postgres";
 
@@ -20,7 +21,7 @@ async function getUser(loginId: string): Promise<User | undefined> {
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
@@ -32,7 +33,7 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { loginId, password } = parsedCredentials.data;
           const user = await getUser(loginId);
-          if (!user) return null;
+          if (!user) throw new CredentialsSignin("User Not Found");
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           if (passwordsMatch) return user;
@@ -43,4 +44,23 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (token.sub) {
+        session.user = {
+          ...session.user,
+          id: token.sub,
+        };
+      }
+      return session;
+    },
+    async jwt({ token, user, trigger }) {
+      if (user) {
+        token.sub = user.id;
+        token.name = user.name || null;
+        token.email = user.email || null;
+      }
+      return token;
+    },
+  },
 });
