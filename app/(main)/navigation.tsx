@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { NavButton } from "./navButton";
-import { handleSignOut } from "@/actions/auth";
+import { handleSignOut } from "actions/auth";
 
 export const Navigation = () => {
   const { data: session, status } = useSession();
