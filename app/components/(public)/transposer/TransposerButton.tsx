@@ -1,6 +1,6 @@
 "use client";
 
-import { NavButton } from "./navButton";
+import { NavButton } from "../../navButton";
 import { usePathname } from "next/navigation";
 
 export const TransposerButton = () => {

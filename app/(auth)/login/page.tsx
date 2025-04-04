@@ -1,17 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useActionState } from "react";
 import { authenticate } from "../../lib/actions";
+import { SignInButton } from "@/app/components/login/SignInButton";
 
 export default function Page() {
   const [errorMessage, formAction, pending] = useActionState(
     authenticate,
     undefined
   );
-
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/blog";
 
   return (
     <div className="text-center bg-gray-900 text-white p-4 rounded-md">
@@ -52,7 +49,9 @@ export default function Page() {
             className="mt-1 block w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-white shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
-        <input type="hidden" name="redirectTo" value={callbackUrl} />
+        <Suspense>
+          <SignInButton />
+        </Suspense>
         <button
           type="submit"
           disabled={pending}
