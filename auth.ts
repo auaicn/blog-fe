@@ -1,4 +1,5 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin, Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
@@ -32,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { loginId, password } = parsedCredentials.data;
           const user = await getUser(loginId);
-          if (!user) return null;
+          if (!user) throw new CredentialsSignin("User Not Found");
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           if (passwordsMatch) return user;
@@ -44,16 +45,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session, token, user }) {
-      // Attach the user information to the session
-      console.log("Session:", session);
-      console.log("Token:", token);
-      console.log("User:", user);
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (token.sub) {
+        session.user = {
+          ...session.user,
+          id: token.sub,
+        };
+      }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
-        token.user = user;
+        token.sub = user.id;
+        token.name = user.name || null;
+        token.email = user.email || null;
       }
       return token;
     },

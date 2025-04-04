@@ -12,6 +12,7 @@ export const authConfig = {
 
       const isPublic =
         nextUrl.pathname === "/" ||
+        nextUrl.pathname.startsWith("/login") ||
         nextUrl.pathname.startsWith("/blog") ||
         nextUrl.pathname.startsWith("/about") ||
         nextUrl.pathname.startsWith("/transposer");

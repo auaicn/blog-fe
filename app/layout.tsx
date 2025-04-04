@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { SessionProvider } from "next-auth/react";
+import Providers from "./components/Providers";
 
 export default function RootLayout({
   children,
@@ -8,9 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <SessionProvider>
-        <body className="bg-gray-100 text-gray-900 h-full">{children}</body>
-      </SessionProvider>
+      <body className="bg-gray-100 text-gray-900 h-full">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
