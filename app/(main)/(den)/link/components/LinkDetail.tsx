@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 interface LinkDetailProps {
   link: Link | null;
+  onUpdate?: (updatedLink: Link) => void;
 }
 
 interface OGPreview {
@@ -15,10 +16,21 @@ interface OGPreview {
   siteName: string;
 }
 
-export function LinkDetail({ link }: LinkDetailProps) {
+export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
   const [ogPreview, setOgPreview] = useState<OGPreview | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedMemo, setEditedMemo] = useState("");
+
+  useEffect(() => {
+    if (link) {
+      setIsEditing(false);
+      setEditedTitle(link.title);
+      setEditedMemo(link.memo || "");
+    }
+  }, [link]);
 
   useEffect(() => {
     if (!link) {
@@ -49,6 +61,17 @@ export function LinkDetail({ link }: LinkDetailProps) {
     };
     loadOGData();
   }, [link]);
+
+  const handleSave = () => {
+    if (!link || !onUpdate) return;
+    const updatedLink = {
+      ...link,
+      title: editedTitle,
+      memo: editedMemo,
+    };
+    onUpdate(updatedLink);
+    setIsEditing(false);
+  };
 
   if (!link) {
     return (
@@ -110,16 +133,26 @@ export function LinkDetail({ link }: LinkDetailProps) {
         </div>
         <div>
           <div>
-            <h2
-              className="text-2xl font-bold text-gray-900 dark:text-gray-100 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
-              onClick={handleClick}
-            >
-              {isLoading ? (
-                <span className="inline-block h-7 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-              ) : (
-                link.title || getDomainInitial(link.url)
-              )}
-            </h2>
+            {isEditing ? (
+              <input
+                type="text"
+                value={editedTitle}
+                onChange={(e) => setEditedTitle(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter title"
+              />
+            ) : (
+              <h2
+                className="text-2xl font-bold text-gray-900 dark:text-gray-100 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+                onClick={handleClick}
+              >
+                {isLoading ? (
+                  <span className="inline-block h-7 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+                ) : (
+                  link.title || getDomainInitial(link.url)
+                )}
+              </h2>
+            )}
             <p
               className="mt-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
               onClick={handleClick}
@@ -131,16 +164,28 @@ export function LinkDetail({ link }: LinkDetailProps) {
               )}
             </p>
           </div>
-          <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
-            {isLoading ? (
-              <>
-                <span className="block h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
-                <span className="block h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-              </>
+          <div>
+            {isEditing ? (
+              <textarea
+                value={editedMemo}
+                onChange={(e) => setEditedMemo(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter memo"
+                rows={4}
+              />
             ) : (
-              link.memo || "No description available"
+              <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+                {isLoading ? (
+                  <>
+                    <span className="block h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
+                    <span className="block h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+                  </>
+                ) : (
+                  link.memo || "No description available"
+                )}
+              </p>
             )}
-          </p>
+          </div>
           <div className="mt-6 flex flex-wrap gap-2">
             {link.tags.map((tagId) => {
               const tag = mockTags.find((t) => t.id === tagId);
@@ -159,6 +204,31 @@ export function LinkDetail({ link }: LinkDetailProps) {
           </div>
           <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
             Added on {new Date(link.createdAt).toLocaleDateString()}
+          </div>
+          <div className="mt-6 flex justify-end space-x-2">
+            {isEditing ? (
+              <>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                >
+                  Save
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+              >
+                Edit
+              </button>
+            )}
           </div>
         </div>
       </div>

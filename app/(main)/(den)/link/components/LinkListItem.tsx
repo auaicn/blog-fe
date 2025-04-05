@@ -162,21 +162,23 @@ export function LinkListItem({
             </p>
           )}
           <div className="mt-2 flex items-center gap-2">
-            {link.tags.map((tagId) => {
-              const tag = mockTags.find((t) => t.id === tagId);
-              if (!tag) return null;
-              return (
-                <span
-                  key={tagId}
-                  onClick={(e) => handleTagClick(e, tagId)}
-                  className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity ${getTagColorClass(
-                    tagId
-                  )}`}
-                >
-                  {tag.name}
-                </span>
-              );
-            })}
+            {link.tags
+              .sort((a, b) => a.localeCompare(b))
+              .map((tagId) => {
+                const tag = mockTags.find((t) => t.id === tagId);
+                if (!tag) return null;
+                return (
+                  <span
+                    key={tagId}
+                    onClick={(e) => handleTagClick(e, tagId)}
+                    className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity ${getTagColorClass(
+                      tagId
+                    )}`}
+                  >
+                    {tag.name}
+                  </span>
+                );
+              })}
           </div>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import { Link } from "../types";
-import { mockLinks } from "../mock/links";
 import { LinkListItem } from "./LinkListItem";
 
 interface LinkListProps {
-  selectedTag: string | "untagged" | null;
+  selectedTag: string | null;
   selectedLink: Link | null;
-  onLinkSelect: (link: Link | null) => void;
-  onTagClick: (tagId: string) => void;
+  onLinkSelect: (link: Link) => void;
+  onTagClick: (tag: string) => void;
+  links: Link[];
 }
 
 export function LinkList({
@@ -14,20 +14,11 @@ export function LinkList({
   selectedLink,
   onLinkSelect,
   onTagClick,
+  links,
 }: LinkListProps) {
-  const filteredLinks = mockLinks.filter((link) => {
-    if (selectedTag === "untagged") {
-      return link.tags.length === 0;
-    }
-    if (selectedTag === null) {
-      return true;
-    }
-    return link.tags.includes(selectedTag);
-  });
-
   return (
-    <div className="space-y-2">
-      {filteredLinks.map((link) => (
+    <div className="space-y-4">
+      {links.map((link) => (
         <LinkListItem
           key={link.id}
           link={link}
