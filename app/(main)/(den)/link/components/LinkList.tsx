@@ -2,7 +2,6 @@ import { Link } from "../types";
 import { LinkListItem } from "./LinkListItem";
 
 interface LinkListProps {
-  selectedTag: string | null;
   selectedLink: Link | null;
   onLinkSelect: (link: Link) => void;
   onTagClick: (tag: string) => void;
@@ -10,7 +9,6 @@ interface LinkListProps {
 }
 
 export function LinkList({
-  selectedTag,
   selectedLink,
   onLinkSelect,
   onTagClick,

@@ -1,6 +1,6 @@
 import { Link } from "../types";
 import { mockTags } from "../mock/tags";
-import { colorMap } from "../constants/colors";
+import { colorMap } from "../../../../lib/colors";
 import { fetchOGMetaData } from "../utils/og";
 import { useEffect, useState } from "react";
 
@@ -120,16 +120,13 @@ export function LinkListItem({
               <span className="inline-block h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
             ) : (
               <>
-                {link.title || getDomainInitial(link.url)}
-                {ogPreview?.title && link.title && (
+                {link.title}
+                {ogPreview?.title && (
                   <span className="text-gray-500 dark:text-gray-400">
                     {" "}
-                    ({ogPreview.title})
-                  </span>
-                )}
-                {ogPreview?.title && !link.title && (
-                  <span className="text-gray-900 dark:text-gray-100">
+                    {link.title && `(`}
                     {ogPreview.title}
+                    {link.title && `)`}
                   </span>
                 )}
               </>
@@ -149,7 +146,7 @@ export function LinkListItem({
                   </p>
                 )}
                 {link.memo && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                  <p className="text-sm text-gray-900 dark:text-gray-100 line-clamp-2">
                     {link.memo}
                   </p>
                 )}

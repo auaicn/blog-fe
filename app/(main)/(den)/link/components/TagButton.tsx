@@ -1,5 +1,5 @@
 import { Tag } from "../types";
-import { colorMap } from "../constants/colors";
+import { colorMap } from "../../../../lib/colors";
 
 interface TagButtonProps {
   tag: Tag;

@@ -1,4 +1,4 @@
-import { ColorId } from "./constants/colors";
+import { ColorId } from "../../../lib/colors";
 
 export interface Link {
   id: string;

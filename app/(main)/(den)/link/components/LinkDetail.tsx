@@ -1,6 +1,7 @@
+import { useRef } from "react";
 import { Link } from "../types";
 import { mockTags } from "../mock/tags";
-import { colorMap } from "../constants/colors";
+import { colorMap } from "../../../../lib/colors";
 import { fetchOGMetaData } from "../utils/og";
 import { useEffect, useState } from "react";
 
@@ -20,13 +21,47 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
   const [ogPreview, setOgPreview] = useState<OGPreview | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [isEditingMemo, setIsEditingMemo] = useState(false);
+
   const [editedTitle, setEditedTitle] = useState("");
   const [editedMemo, setEditedMemo] = useState("");
 
+  // 컴포넌트 상단
+  const titleRef = useRef<HTMLDivElement>(null);
+  const memoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        titleRef.current &&
+        !titleRef.current.contains(e.target as Node) &&
+        isEditingTitle
+      ) {
+        handleSave();
+        setIsEditingTitle(false);
+      }
+
+      if (
+        memoRef.current &&
+        !memoRef.current.contains(e.target as Node) &&
+        isEditingMemo
+      ) {
+        handleSave();
+        setIsEditingMemo(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isEditingTitle, isEditingMemo, editedTitle, editedMemo]);
+
   useEffect(() => {
     if (link) {
-      setIsEditing(false);
+      setIsEditingTitle(false);
+      setIsEditingMemo(false);
       setEditedTitle(link.title);
       setEditedMemo(link.memo || "");
     }
@@ -70,7 +105,8 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
       memo: editedMemo,
     };
     onUpdate(updatedLink);
-    setIsEditing(false);
+    setIsEditingTitle(false);
+    setIsEditingMemo(false);
   };
 
   if (!link) {
@@ -106,7 +142,7 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
     <div className="p-6">
       <div className="space-y-6">
         <div
-          className="w-full aspect-video cursor-pointer hover:opacity-90 transition-opacity"
+          className="w-full aspect-auto cursor-pointer hover:opacity-90 transition-opacity h-64"
           onClick={handleClick}
         >
           {isLoading ? (
@@ -132,57 +168,93 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
           )}
         </div>
         <div>
-          <div>
-            {isEditing ? (
+          <div ref={titleRef}>
+            {isEditingTitle ? (
               <input
                 type="text"
                 value={editedTitle}
+                autoFocus
                 onChange={(e) => setEditedTitle(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    setIsEditingTitle(false);
+                    setEditedTitle(link.title);
+                  }
+
+                  if (e.key === "Enter") {
+                    handleSave();
+                    setIsEditingTitle(false);
+                  }
+                }}
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter title"
               />
             ) : (
               <h2
-                className="text-2xl font-bold text-gray-900 dark:text-gray-100 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
-                onClick={handleClick}
+                className="text-2xl font-bold text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-400"
+                onClick={() => setIsEditingTitle(true)}
               >
-                {isLoading ? (
-                  <span className="inline-block h-7 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-                ) : (
-                  link.title || getDomainInitial(link.url)
-                )}
+                {link.title || "No title yet"}
               </h2>
             )}
-            <p
-              className="mt-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
-              onClick={handleClick}
-            >
-              {isLoading ? (
-                <span className="inline-block h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-              ) : (
-                ogPreview?.siteName || new URL(link.url).hostname
-              )}
-            </p>
           </div>
-          <div>
-            {isEditing ? (
+          <p
+            className="mt-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+            onClick={handleClick}
+          >
+            {isLoading ? (
+              <span className="inline-block h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+            ) : (
+              ogPreview?.siteName || new URL(link.url).hostname
+            )}
+          </p>
+          <div className="mt-4" ref={memoRef}>
+            {isEditingMemo ? (
               <textarea
                 value={editedMemo}
                 onChange={(e) => setEditedMemo(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter memo"
+                autoFocus
                 rows={4}
+                placeholder="Enter memo"
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    setIsEditingMemo(false);
+                    setEditedMemo(link.memo || "");
+                  }
+
+                  if (e.key === "Enter") {
+                    if (e.shiftKey) {
+                      e.preventDefault();
+                      const textarea = e.currentTarget;
+                      const start = textarea.selectionStart;
+                      const end = textarea.selectionEnd;
+
+                      const newValue =
+                        editedMemo.substring(0, start) +
+                        "\n" +
+                        editedMemo.substring(end);
+
+                      setEditedMemo(newValue);
+
+                      // Move cursor after the inserted newline
+                      requestAnimationFrame(() => {
+                        textarea.selectionStart = textarea.selectionEnd =
+                          start + 1;
+                      });
+                    } else {
+                      e.preventDefault(); // optional, if you don't want default newline
+                      handleSave();
+                      setIsEditingMemo(false);
+                    }
+                  }
+                }}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             ) : (
-              <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
-                {isLoading ? (
-                  <>
-                    <span className="block h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
-                    <span className="block h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-                  </>
-                ) : (
-                  link.memo || "No description available"
-                )}
+              <p
+                className="text-gray-600 dark:text-gray-300 leading-relaxed hover:gray-700 dark:hover:text-gray-400 whitespace-pre-wrap"
+                onClick={() => setIsEditingMemo(true)}
+              >
+                {link.memo || "No description yet"}
               </p>
             )}
           </div>
@@ -204,31 +276,6 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
           </div>
           <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
             Added on {new Date(link.createdAt).toLocaleDateString()}
-          </div>
-          <div className="mt-6 flex justify-end space-x-2">
-            {isEditing ? (
-              <>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                >
-                  Save
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-              >
-                Edit
-              </button>
-            )}
           </div>
         </div>
       </div>

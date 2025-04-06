@@ -4,7 +4,7 @@ export const mockLinks: Link[] = [
   {
     id: "1",
     url: "https://react.dev",
-    title: "",
+    title: "title",
     memo: "Official React documentation and learning resources",
     tags: ["1", "2"],
     createdAt: "2024-01-01",
