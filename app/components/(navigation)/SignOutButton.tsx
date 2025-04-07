@@ -10,7 +10,7 @@ export const SignOutButton = async () => {
       <form action={handleSignOut}>
         <button
           className={twMerge(
-            "px-8 py-3 w-[150px] text-center  bg-transparent hover:bg-indigo-700/50"
+            "px-8 py-3 w-[150px] text-center bg-transparent hover:bg-indigo-700/50 rounded-lg"
           )}
         >
           Log out

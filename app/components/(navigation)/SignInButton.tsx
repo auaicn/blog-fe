@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { NavButton } from "./navButton";
+import { NavButton } from "./NavButton";
 
 export const SignInButton = async () => {
   const session = await auth();
