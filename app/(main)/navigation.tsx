@@ -5,7 +5,7 @@ import { AboutButton } from "../components/(public)/about/AboutButton";
 import { LinkButton } from "../components/(den)/link/LinkButton";
 import { TransposerButton } from "../components/(public)/transposer/TransposerButton";
 import { SignOutButton } from "../components/SignOutButton";
-import { SignInButton } from "../components/SignInButton";
+import { SignInButton } from "../components/(navigation)/SignInButton";
 import { ScrollObserver } from "./components/ScrollObserver";
 
 export const Navigation = () => {

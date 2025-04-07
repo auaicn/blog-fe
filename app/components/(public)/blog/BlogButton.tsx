@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { NavButton } from "../../navButton";
+import { NavButton } from "../../(navigation)/NavButton";
 
 export const BlogButton = () => {
   const pathname = usePathname();
