@@ -145,7 +145,7 @@ export function LinkDetail({ link, onUpdate }: Props) {
     }
   };
 
-  const getTagColorClass = (tagId: string) => {
+  const getTagColorClass = (tagId: number) => {
     const tag = mockTags.find((t) => t.id === tagId);
     if (!tag)
       return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";

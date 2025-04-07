@@ -20,7 +20,7 @@ export function MarkdownViewer({
   if (disableEditing) {
     return (
       <div className="flex h-full overflow-y-scroll">
-        <div className="w-1/2">
+        <div className="w-full">
           <MarkdownPreview markdown={markdown} />
         </div>
       </div>

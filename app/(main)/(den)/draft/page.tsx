@@ -1,9 +1,7 @@
-export default async function DraftPage({
-  params,
-}: Readonly<{
-  params: Promise<{ tag: string | null }>;
-}>) {
-  const { tag } = await params;
-
-  return <div>{tag}</div>;
+export default function DraftPage() {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">Select a draft from the sidebar</h1>
+    </div>
+  );
 }

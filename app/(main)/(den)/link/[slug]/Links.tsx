@@ -1,39 +1,26 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { TagList } from "@/app/(main)/(den)/link/components/(tag)/TagList";
 import { LinkDetail } from "@/app/(main)/(den)/link/components/(detail)/LinkDetail";
 import { LinkList } from "../components/(list)/LinkList";
 import { mockLinks } from "@/mock/(den)/link";
 import { Link } from "@/types";
 
-export default function Links({ tag }: { tag: string | null }) {
-  const router = useRouter();
+export default function Links({ tagId }: { tagId: number | null }) {
   const [selectedLink, setSelectedLink] = useState<Link | null>(null);
   const [links, setLinks] = useState<Link[]>(mockLinks);
 
   // Get selected tag from URL path
-  const selectedTag = tag || null;
-
-  // Update URL when tag changes
-  const handleTagSelect = (tag: string | null) => {
-    if (tag) {
-      router.push(`/link/${tag}`);
-    } else {
-      router.push("/link");
-    }
-  };
+  const selectedTagId = tagId || null;
 
   // Filter links based on selected tag
   const filteredLinks = links.filter((link) => {
-    if (selectedTag === "untagged") {
+    if (selectedTagId === null) {
       return link.tags.length === 0;
     }
-    if (selectedTag === null) {
-      return true;
-    }
-    return link.tags.includes(selectedTag);
+
+    return link.tags.includes(selectedTagId);
   });
 
   // Clear selected link if it's not in the filtered results
@@ -44,7 +31,7 @@ export default function Links({ tag }: { tag: string | null }) {
     ) {
       setSelectedLink(null);
     }
-  }, [selectedTag, selectedLink, filteredLinks]);
+  }, [selectedTagId, selectedLink, filteredLinks]);
 
   const handleUpdateLink = (updatedLink: Link) => {
     setLinks(
@@ -56,15 +43,14 @@ export default function Links({ tag }: { tag: string | null }) {
   return (
     <div className="flex h-screen">
       <div className="w-64 pr-4 overflow-y-auto">
-        <TagList selectedTag={selectedTag} onTagSelect={handleTagSelect} />
+        <TagList selectedTagId={selectedTagId} />
       </div>
       <div className="w-[1px] bg-gray-200" />
       <div className="flex-1 p-4 overflow-y-auto">
         <LinkList
           selectedLink={selectedLink}
-          onLinkSelect={setSelectedLink}
-          onTagClick={handleTagSelect}
           links={filteredLinks}
+          onLinkSelect={setSelectedLink}
         />
       </div>
       <div className="w-[1px] bg-gray-200" />

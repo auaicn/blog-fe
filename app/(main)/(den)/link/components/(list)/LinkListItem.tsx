@@ -1,17 +1,18 @@
 import { colorMap } from "@/app/lib/colors";
 import { fetchOGMetaData, OgMetaData } from "@/app/lib/og";
+import { slugify } from "@/app/lib/util/slug";
 import { mockTags } from "@/mock";
 import { Link } from "@/types";
+import NextLink from "next/link";
 import { useEffect, useState } from "react";
 
 interface Props {
   link: Link;
   isSelected: boolean;
   onClick: () => void;
-  onTagClick: (tagId: string) => void;
 }
 
-export function LinkListItem({ link, isSelected, onClick, onTagClick }: Props) {
+export function LinkListItem({ link, isSelected, onClick }: Props) {
   const [ogPreview, setOgPreview] = useState<OgMetaData | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +49,7 @@ export function LinkListItem({ link, isSelected, onClick, onTagClick }: Props) {
     }
   };
 
-  const getTagColorClass = (tagId: string) => {
+  const getTagColorClass = (tagId: number) => {
     const tag = mockTags.find((t) => t.id === tagId);
     if (!tag)
       return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
@@ -59,11 +60,6 @@ export function LinkListItem({ link, isSelected, onClick, onTagClick }: Props) {
   const handleImageClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     window.open(link.url, "_blank");
-  };
-
-  const handleTagClick = (e: React.MouseEvent, tagId: string) => {
-    e.stopPropagation();
-    onTagClick(tagId);
   };
 
   return (
@@ -148,20 +144,29 @@ export function LinkListItem({ link, isSelected, onClick, onTagClick }: Props) {
           )}
           <div className="mt-2 flex items-center gap-2">
             {link.tags
-              .sort((a, b) => a.localeCompare(b))
+              .sort((a, b) => {
+                const name$a = mockTags.find((tag) => (tag.id = a))?.name ?? "";
+                const name$b = mockTags.find((tag) => (tag.id = b))?.name ?? "";
+
+                return name$a.localeCompare(name$b);
+              })
               .map((tagId) => {
                 const tag = mockTags.find((t) => t.id === tagId);
                 if (!tag) return null;
                 return (
-                  <span
-                    key={tagId}
-                    onClick={(e) => handleTagClick(e, tagId)}
-                    className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity ${getTagColorClass(
-                      tagId
-                    )}`}
+                  <NextLink
+                    href={`/link/${slugify(tag.name)}`}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    {tag.name}
-                  </span>
+                    <span
+                      key={tagId}
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity ${getTagColorClass(
+                        tagId
+                      )}`}
+                    >
+                      {tag.name}
+                    </span>
+                  </NextLink>
                 );
               })}
           </div>

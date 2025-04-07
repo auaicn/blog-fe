@@ -1,4 +1,4 @@
-import { MarkdownPreview } from "@/app/components/(public)/blog/MarkdownPreview";
+import { MarkdownPreview } from "@/app/components/MarkdownPreview";
 import { mockAbout } from "@/mock";
 
 export default function About() {

@@ -3,7 +3,7 @@ export interface Link {
   url: string;
   title: string;
   memo: string;
-  tags: string[];
+  tags: number[];
   createdAt: string;
   updatedAt: string;
 }

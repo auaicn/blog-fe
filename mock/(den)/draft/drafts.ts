@@ -1,4 +1,4 @@
-export const mockMds = [
+export const mockDrafts = [
   {
     id: "md1",
     title: "Getting Started with React",
