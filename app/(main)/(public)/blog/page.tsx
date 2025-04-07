@@ -1,10 +1,7 @@
-export default function BlogList() {
+export default function BlogsPage() {
   return (
-    <div>
-      <ul className="space-y-4">
-        <p>blog1</p>
-        <p>blog2</p>
-      </ul>
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">Select a post from the sidebar</h1>
     </div>
   );
 }

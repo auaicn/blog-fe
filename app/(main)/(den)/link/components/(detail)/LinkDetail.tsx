@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import { mockTags } from "../../../../../../mock/(den)/link/tags";
 import { colorMap } from "../../../../../lib/colors";
 import { fetchOGMetaData, OgMetaData } from "../../../../../lib/og";
 import { useEffect, useState } from "react";
 import { Link } from "@/types";
+import { mockTags } from "@/mock";
 
 interface Props {
   link: Link | null;
