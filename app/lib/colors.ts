@@ -1,4 +1,8 @@
+import clsx from "clsx";
+
 export type ColorId = keyof typeof colorMap;
+
+export const cn = (...args: Parameters<typeof clsx>) => clsx(...args);
 
 export const colorMap = {
   red: {

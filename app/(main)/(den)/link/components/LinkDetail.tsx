@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Link } from "../types";
 import { mockTags } from "../mock/tags";
 import { colorMap } from "../../../../lib/colors";
-import { fetchOGMetaData } from "../utils/og";
+import { fetchOGMetaData, OgMetaData } from "../../../../lib/og";
 import { useEffect, useState } from "react";
 
 interface LinkDetailProps {
@@ -10,24 +10,21 @@ interface LinkDetailProps {
   onUpdate?: (updatedLink: Link) => void;
 }
 
-interface OGPreview {
-  title: string;
-  description: string;
-  image: string;
-  siteName: string;
-}
-
 export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
-  const [ogPreview, setOgPreview] = useState<OGPreview | null>(null);
+  const [ogPreview, setOgPreview] = useState<OgMetaData | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [isEditingUrl, setIsEditingUrl] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingMemo, setIsEditingMemo] = useState(false);
 
   const [editedTitle, setEditedTitle] = useState("");
   const [editedMemo, setEditedMemo] = useState("");
+  const [editedUrl, setEditedUrl] = useState("");
 
   // 컴포넌트 상단
+  const urlRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const memoRef = useRef<HTMLDivElement>(null);
 
@@ -50,6 +47,24 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
         handleSave();
         setIsEditingMemo(false);
       }
+
+      if (
+        memoRef.current &&
+        !memoRef.current.contains(e.target as Node) &&
+        isEditingMemo
+      ) {
+        handleSave();
+        setIsEditingMemo(false);
+      }
+
+      if (
+        urlRef.current &&
+        !urlRef.current.contains(e.target as Node) &&
+        isEditingUrl
+      ) {
+        handleSave();
+        setIsEditingUrl(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -62,8 +77,10 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
     if (link) {
       setIsEditingTitle(false);
       setIsEditingMemo(false);
+      setIsEditingUrl(false);
       setEditedTitle(link.title);
       setEditedMemo(link.memo || "");
+      setEditedUrl(link.url);
     }
   }, [link]);
 
@@ -89,7 +106,7 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
           setFavicon(faviconUrl);
         }
       } catch (error) {
-        console.error("Error fetching metadata:", error);
+        console.warn("Error fetching metadata:", link.url);
       } finally {
         setIsLoading(false);
       }
@@ -103,10 +120,12 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
       ...link,
       title: editedTitle,
       memo: editedMemo,
+      url: editedUrl,
     };
     onUpdate(updatedLink);
     setIsEditingTitle(false);
     setIsEditingMemo(false);
+    setIsEditingUrl(false);
   };
 
   if (!link) {
@@ -197,16 +216,51 @@ export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
               </h2>
             )}
           </div>
-          <p
-            className="mt-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
-            onClick={handleClick}
-          >
-            {isLoading ? (
-              <span className="inline-block h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-            ) : (
-              ogPreview?.siteName || new URL(link.url).hostname
-            )}
-          </p>
+          <div ref={urlRef}>
+            <p className="mt-2 text-sm w-full text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">
+              {isLoading ? (
+                <span className="inline-block h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+              ) : isEditingUrl ? (
+                <input
+                  type="text"
+                  value={editedUrl}
+                  onChange={(e) => setEditedUrl(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      setIsEditingUrl(false);
+                      setEditedUrl(link.url);
+                    }
+
+                    if (e.key === "Enter") {
+                      handleSave();
+                      setIsEditingUrl(false);
+                    }
+                  }}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              ) : (
+                <span
+                  onClick={() => setIsEditingUrl(true)}
+                  className="w-full block"
+                >
+                  {new URL(link.url).hostname}
+                </span>
+              )}
+            </p>
+          </div>
+          sdf
+          {ogPreview?.siteName && (
+            <p
+              className="mt-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+              onClick={handleClick}
+            >
+              {isLoading ? (
+                <span className="inline-block h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+              ) : (
+                ogPreview?.siteName
+              )}
+            </p>
+          )}
           <div className="mt-4" ref={memoRef}>
             {isEditingMemo ? (
               <textarea

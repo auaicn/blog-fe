@@ -1,7 +1,7 @@
 import { Link } from "../types";
 import { mockTags } from "../mock/tags";
 import { colorMap } from "../../../../lib/colors";
-import { fetchOGMetaData } from "../utils/og";
+import { fetchOGMetaData, OgMetaData } from "../../../../lib/og";
 import { useEffect, useState } from "react";
 
 interface LinkListItemProps {
@@ -11,20 +11,13 @@ interface LinkListItemProps {
   onTagClick: (tagId: string) => void;
 }
 
-interface OGPreview {
-  title: string;
-  description: string;
-  image: string;
-  siteName: string;
-}
-
 export function LinkListItem({
   link,
   isSelected,
   onClick,
   onTagClick,
 }: LinkListItemProps) {
-  const [ogPreview, setOgPreview] = useState<OGPreview | null>(null);
+  const [ogPreview, setOgPreview] = useState<OgMetaData | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
