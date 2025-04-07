@@ -1,14 +1,13 @@
-import { mockTags } from "../mock/tags";
-import { Tag } from "../types";
-import { TagButton } from "./TagButton";
-import { UntaggedButton } from "./UntaggedButton";
+import { mockTags } from "../../mock/tags";
+import { TagListItem } from "./TagListItem";
+import { TagListItem$Untagged } from "./TagListItem.Untagged";
 
-interface TagSidebarProps {
+interface Props {
   selectedTag: string | "untagged" | null;
   onTagSelect: (tagId: string | "untagged" | null) => void;
 }
 
-export function TagSidebar({ selectedTag, onTagSelect }: TagSidebarProps) {
+export function TagList({ selectedTag, onTagSelect }: Props) {
   const handleTagClick = (tagId: string) => {
     if (selectedTag === tagId) {
       onTagSelect(null);
@@ -19,12 +18,12 @@ export function TagSidebar({ selectedTag, onTagSelect }: TagSidebarProps) {
 
   return (
     <div className="flex flex-col gap-2">
-      <UntaggedButton
+      <TagListItem$Untagged
         isSelected={selectedTag === "untagged"}
         onClick={() => onTagSelect("untagged")}
       />
       {mockTags.map((tag) => (
-        <TagButton
+        <TagListItem
           key={tag.id}
           tag={tag}
           isSelected={selectedTag === tag.id}

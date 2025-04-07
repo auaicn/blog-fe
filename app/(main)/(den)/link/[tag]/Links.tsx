@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { TagSidebar } from "@/app/(main)/(den)/link/components/TagSidebar";
-import { LinkDetail } from "@/app/(main)/(den)/link/components/LinkDetail";
+import { TagList } from "@/app/(main)/(den)/link/components/(tag)/TagList";
+import { LinkDetail } from "@/app/(main)/(den)/link/components/(detail)/LinkDetail";
 import { Link } from "@/app/(main)/(den)/link/types";
-import { LinkList } from "@/app/(main)/(den)/link/components/LinkList";
 import { mockLinks } from "@/app/(main)/(den)/link/mock/links";
+import { LinkList } from "../components/(list)/LinkList";
 
 export default function Links({ tag }: { tag: string | null }) {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function Links({ tag }: { tag: string | null }) {
   return (
     <div className="flex h-screen">
       <div className="w-64 pr-4 overflow-y-auto">
-        <TagSidebar selectedTag={selectedTag} onTagSelect={handleTagSelect} />
+        <TagList selectedTag={selectedTag} onTagSelect={handleTagSelect} />
       </div>
       <div className="w-[1px] bg-gray-200" />
       <div className="flex-1 p-4 overflow-y-auto">

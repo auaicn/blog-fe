@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { Link } from "../types";
-import { mockTags } from "../mock/tags";
-import { colorMap } from "../../../../lib/colors";
-import { fetchOGMetaData, OgMetaData } from "../../../../lib/og";
+import { Link } from "../../types";
+import { mockTags } from "../../mock/tags";
+import { colorMap } from "../../../../../lib/colors";
+import { fetchOGMetaData, OgMetaData } from "../../../../../lib/og";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -216,6 +216,7 @@ export function LinkDetail({ link, onUpdate }: Props) {
               </h2>
             )}
           </div>
+          {/* url */}
           <div ref={urlRef}>
             <p className="mt-2 text-sm w-full text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">
               {isLoading ? (
@@ -248,7 +249,6 @@ export function LinkDetail({ link, onUpdate }: Props) {
               )}
             </p>
           </div>
-          sdf
           {ogPreview?.siteName && (
             <p
               className="mt-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"

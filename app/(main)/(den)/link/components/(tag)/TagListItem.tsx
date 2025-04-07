@@ -1,5 +1,5 @@
-import { Tag } from "../types";
-import { colorMap } from "../../../../lib/colors";
+import { Tag } from "../../types";
+import { colorMap } from "../../../../../lib/colors";
 
 interface Props {
   tag: Tag;
@@ -7,7 +7,7 @@ interface Props {
   onClick: () => void;
 }
 
-export function TagButton({ tag, isSelected, onClick }: Props) {
+export function TagListItem({ tag, isSelected, onClick }: Props) {
   const colors = colorMap[tag.colorId] || colorMap.gray;
 
   return (

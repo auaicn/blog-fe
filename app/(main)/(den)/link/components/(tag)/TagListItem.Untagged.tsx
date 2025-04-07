@@ -3,7 +3,7 @@ interface Props {
   onClick: () => void;
 }
 
-export function UntaggedButton({ isSelected, onClick }: Props) {
+export function TagListItem$Untagged({ isSelected, onClick }: Props) {
   return (
     <button
       onClick={onClick}
