@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import "github-markdown-css/github-markdown.css";
+
 import Providers from "./components/Providers";
 
 export default function RootLayout({
