@@ -1,10 +1,10 @@
 import { twMerge } from "tailwind-merge";
-import { DraftButton } from "../components/(den)/draft/DraftButton";
-import { BlogButton } from "../components/(public)/blog/BlogButton";
-import { AboutButton } from "../components/(public)/about/AboutButton";
-import { LinkButton } from "../components/(den)/link/LinkButton";
-import { TransposerButton } from "../components/(public)/transposer/TransposerButton";
-import { SignOutButton } from "../components/SignOutButton";
+import { DraftButton } from "../components/(navigation)/DraftButton";
+import { BlogButton } from "../components/(navigation)/BlogButton";
+import { AboutButton } from "../components/(navigation)/AboutButton";
+import { LinkButton } from "../components/(navigation)/LinkButton";
+import { TransposerButton } from "../components/(navigation)/TransposerButton";
+import { SignOutButton } from "../components/(navigation)/SignOutButton";
 import { SignInButton } from "../components/(navigation)/SignInButton";
 import { ScrollObserver } from "./components/ScrollObserver";
 
