@@ -1,7 +1,7 @@
 import { Link } from "../types";
 import { LinkListItem } from "./LinkListItem";
 
-interface LinkListProps {
+interface Props {
   selectedLink: Link | null;
   onLinkSelect: (link: Link) => void;
   onTagClick: (tag: string) => void;
@@ -13,7 +13,7 @@ export function LinkList({
   onLinkSelect,
   onTagClick,
   links,
-}: LinkListProps) {
+}: Props) {
   return (
     <div className="space-y-4">
       {links.map((link) => (

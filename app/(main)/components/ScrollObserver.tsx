@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface ScrollObserverProps {
+interface Props {
   children: React.ReactNode;
 }
 
-export function ScrollObserver({ children }: ScrollObserverProps) {
+export function ScrollObserver({ children }: Props) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {

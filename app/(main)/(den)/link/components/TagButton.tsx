@@ -1,13 +1,13 @@
 import { Tag } from "../types";
 import { colorMap } from "../../../../lib/colors";
 
-interface TagButtonProps {
+interface Props {
   tag: Tag;
   isSelected: boolean;
   onClick: () => void;
 }
 
-export function TagButton({ tag, isSelected, onClick }: TagButtonProps) {
+export function TagButton({ tag, isSelected, onClick }: Props) {
   const colors = colorMap[tag.colorId] || colorMap.gray;
 
   return (

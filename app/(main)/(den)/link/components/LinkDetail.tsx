@@ -5,12 +5,12 @@ import { colorMap } from "../../../../lib/colors";
 import { fetchOGMetaData, OgMetaData } from "../../../../lib/og";
 import { useEffect, useState } from "react";
 
-interface LinkDetailProps {
+interface Props {
   link: Link | null;
   onUpdate?: (updatedLink: Link) => void;
 }
 
-export function LinkDetail({ link, onUpdate }: LinkDetailProps) {
+export function LinkDetail({ link, onUpdate }: Props) {
   const [ogPreview, setOgPreview] = useState<OgMetaData | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);

@@ -1,4 +1,4 @@
-interface OpenLinkButtonProps {
+interface Props {
   url: string;
   className?: string;
 }
@@ -6,7 +6,7 @@ interface OpenLinkButtonProps {
 export default function OpenLinkButton({
   url,
   className = "",
-}: OpenLinkButtonProps) {
+}: Props) {
   return (
     <a
       href={url}

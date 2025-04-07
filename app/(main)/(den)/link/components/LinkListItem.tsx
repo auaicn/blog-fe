@@ -4,19 +4,14 @@ import { colorMap } from "../../../../lib/colors";
 import { fetchOGMetaData, OgMetaData } from "../../../../lib/og";
 import { useEffect, useState } from "react";
 
-interface LinkListItemProps {
+interface Props {
   link: Link;
   isSelected: boolean;
   onClick: () => void;
   onTagClick: (tagId: string) => void;
 }
 
-export function LinkListItem({
-  link,
-  isSelected,
-  onClick,
-  onTagClick,
-}: LinkListItemProps) {
+export function LinkListItem({ link, isSelected, onClick, onTagClick }: Props) {
   const [ogPreview, setOgPreview] = useState<OgMetaData | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);

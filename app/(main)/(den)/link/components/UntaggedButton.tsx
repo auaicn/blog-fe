@@ -1,9 +1,9 @@
-interface UntaggedButtonProps {
+interface Props {
   isSelected: boolean;
   onClick: () => void;
 }
 
-export function UntaggedButton({ isSelected, onClick }: UntaggedButtonProps) {
+export function UntaggedButton({ isSelected, onClick }: Props) {
   return (
     <button
       onClick={onClick}
