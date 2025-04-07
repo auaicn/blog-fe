@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "tree": "tree -d -I \"node_modules|.next|.git\"",
+    "tree": "tree -d -I \"node_modules|.next|.git\" > tree.md",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
