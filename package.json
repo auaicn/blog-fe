@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "bcryptjs": "^3.0.2",
     "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
