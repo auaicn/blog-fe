@@ -31,6 +31,35 @@ const config: Config = {
           rose: "#F43F5E",
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: "none",
+            code: {
+              backgroundColor: "#f6f8fa",
+              padding: "0.2em 0.4em",
+              borderRadius: "6px",
+              fontSize: "0.875em",
+            },
+            pre: {
+              backgroundColor: "#0d1117",
+              color: "#c9d1d9",
+              borderRadius: "8px",
+              padding: "1em",
+            },
+            "code::before": { content: '""' },
+            "code::after": { content: '""' },
+            a: {
+              color: "#0969da",
+              textDecoration: "underline",
+              "&:hover": {
+                color: "#0a58ca",
+              },
+            },
+            h1: { borderBottom: "1px solid #eaecef", paddingBottom: "0.3em" },
+          },
+        },
+      },
     },
   },
   darkMode: "class",
