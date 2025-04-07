@@ -1,5 +1,3 @@
-import { ColorId } from "../../../lib/colors";
-
 export interface Link {
   id: string;
   url: string;
@@ -8,11 +6,4 @@ export interface Link {
   tags: string[];
   createdAt: string;
   updatedAt: string;
-}
-
-export interface Tag {
-  id: string;
-  name: string;
-  colorId: ColorId;
-  linkCount: number;
 }
