@@ -1,4 +1,4 @@
-import { mockTags } from "../../mock/tags";
+import { mockTags } from "../../../../../../mock/(den)/link/tags";
 import { TagListItem } from "./TagListItem";
 import { TagListItem$Untagged } from "./TagListItem.Untagged";
 

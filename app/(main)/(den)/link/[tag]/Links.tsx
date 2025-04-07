@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TagList } from "@/app/(main)/(den)/link/components/(tag)/TagList";
 import { LinkDetail } from "@/app/(main)/(den)/link/components/(detail)/LinkDetail";
-import { Link } from "@/app/(main)/(den)/link/types";
-import { mockLinks } from "@/app/(main)/(den)/link/mock/links";
+import { Link } from "@/types/tag";
 import { LinkList } from "../components/(list)/LinkList";
+import { mockLinks } from "@/mock/(den)/link";
 
 export default function Links({ tag }: { tag: string | null }) {
   const router = useRouter();

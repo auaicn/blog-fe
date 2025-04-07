@@ -1,4 +1,4 @@
-import { Link } from "../types";
+import { Link } from "@/types";
 import { LinkListItem } from "./LinkListItem";
 
 interface Props {

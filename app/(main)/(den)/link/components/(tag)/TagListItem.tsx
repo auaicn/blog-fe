@@ -1,4 +1,4 @@
-import { Tag } from "../../types";
+import { Tag } from "../../../../../../types/tag";
 import { colorMap } from "../../../../../lib/colors";
 
 interface Props {

@@ -1,7 +1,7 @@
-import { Link } from "../types";
-import { mockTags } from "../mock/tags";
-import { colorMap } from "../../../../lib/colors";
-import { fetchOGMetaData, OgMetaData } from "../../../../lib/og";
+import { colorMap } from "@/app/lib/colors";
+import { fetchOGMetaData, OgMetaData } from "@/app/lib/og";
+import { mockTags } from "@/mock";
+import { Link } from "@/types";
 import { useEffect, useState } from "react";
 
 interface Props {
