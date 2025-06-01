@@ -1,5 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { Navigation } from "./navigation";
+import Footer from "./components/Footer";
 
 export default function MainLayout({
   children,
@@ -9,23 +10,17 @@ export default function MainLayout({
   return (
     <div className="h-screen flex flex-col bg-[#121212] overflow-hidden">
       <Navigation />
-      <div className="h-[60px]" /> {/* 네비게이션 바 높이만큼의 여백 */}
+      {/* 네비게이션 바 높이만큼의 여백 */}
+      <div className="h-[60px] shrink-0" />{" "}
+      <div className="h-[4px] bg-gray-200" />
       <main
-        className={twMerge(
-          "flex-grow min-h-0 p-4 overflow-auto scrollbar-hide"
-        )}
+        className={twMerge("flex-grow min-h-0 overflow-auto scrollbar-hide")}
       >
         <div className="min-h-full flex flex-col scrollbar-hide">
           {children}
-          <footer
-            className={twMerge(
-              "mt-auto p-4 bg-gray-800 text-white text-center"
-            )}
-          >
-            <p>© 2025 pil_d1v's den</p>
-          </footer>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

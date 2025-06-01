@@ -7,15 +7,17 @@ export const SignOutButton = async () => {
 
   return (
     session?.user && (
-      <form action={handleSignOut}>
-        <button
-          className={twMerge(
-            "px-8 py-3 w-[150px] text-center bg-transparent hover:bg-indigo-700/50 rounded-lg"
-          )}
-        >
-          Log out
-        </button>
-      </form>
+      <div className="border-2">
+        <form action={handleSignOut}>
+          <button
+            className={twMerge(
+              "px-8 py-3 w-[150px] text-center bg-transparent hover:bg-indigo-700/50 rounded-lg"
+            )}
+          >
+            Log out
+          </button>
+        </form>
+      </div>
     )
   );
 };
