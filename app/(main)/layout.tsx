@@ -17,15 +17,9 @@ export default function MainLayout({
       >
         <div className="min-h-full flex flex-col scrollbar-hide">
           {children}
-          <footer
-            className={twMerge(
-              "mt-auto p-4 bg-gray-800 text-white text-center"
-            )}
-          >
-            <p>© 2025 pil_d1v's den</p>
-          </footer>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
