@@ -145,8 +145,8 @@ export function LinkListItem({ link, isSelected, onClick }: Props) {
           <div className="mt-2 flex items-center gap-2">
             {link.tags
               .sort((a, b) => {
-                const name$a = mockTags.find((tag) => (tag.id = a))?.name ?? "";
-                const name$b = mockTags.find((tag) => (tag.id = b))?.name ?? "";
+                const name$a = mockTags.find((tag) => tag.id === a)?.name ?? "";
+                const name$b = mockTags.find((tag) => tag.id === b)?.name ?? "";
 
                 return name$a.localeCompare(name$b);
               })
