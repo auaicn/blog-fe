@@ -145,23 +145,25 @@ export function LinkListItem({ link, isSelected, onClick }: Props) {
           <div className="mt-2 flex items-center gap-2">
             {link.tags
               .sort((a, b) => {
-                const name$a = mockTags.find((tag) => (tag.id = a))?.name ?? "";
-                const name$b = mockTags.find((tag) => (tag.id = b))?.name ?? "";
+                const name$a = mockTags.find((tag) => tag.id === a)?.name ?? "";
+                const name$b = mockTags.find((tag) => tag.id === b)?.name ?? "";
 
                 return name$a.localeCompare(name$b);
               })
               .map((tagId) => {
                 const tag = mockTags.find((t) => t.id === tagId);
+
                 if (!tag) return null;
+
                 return (
                   <NextLink
+                    key={tag.id}
                     href={`/link/${slugify(tag.name)}`}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span
-                      key={tagId}
                       className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity ${getTagColorClass(
-                        tagId
+                        tag.id
                       )}`}
                     >
                       {tag.name}

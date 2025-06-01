@@ -12,8 +12,16 @@ interface Props {
 export function TagListItem({ tag, isSelected, linkCount }: Props) {
   const colors = colorMap[tag.colorId] || colorMap.gray;
 
+  if (isSelected) {
+    console.table({
+      ...tag,
+      isSelected,
+      linkCount,
+    });
+  }
+
   return (
-    <Link href={`/link/${slugify(tag.name)}`}>
+    <Link href={isSelected ? "/link/untagged" : `/link/${slugify(tag.name)}`}>
       <button
         className={`w-full px-4 py-2 text-left rounded-lg transition-colors flex items-center gap-2 ${
           isSelected
