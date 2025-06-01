@@ -37,7 +37,6 @@ export function TagList({ selectedTagId }: Props) {
       {mockTags.map((tag) => {
         return (
           <TagListItem
-            key={tag.id}
             tag={tag}
             linkCount={linkCounts.get(tag.id) ?? 0}
             isSelected={selectedTagId === tag.id}
