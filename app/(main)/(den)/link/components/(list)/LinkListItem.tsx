@@ -152,16 +152,18 @@ export function LinkListItem({ link, isSelected, onClick }: Props) {
               })
               .map((tagId) => {
                 const tag = mockTags.find((t) => t.id === tagId);
+
                 if (!tag) return null;
+
                 return (
                   <NextLink
                     href={`/link/${slugify(tag.name)}`}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span
-                      key={tagId}
+                      key={tag.id}
                       className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity ${getTagColorClass(
-                        tagId
+                        tag.id
                       )}`}
                     >
                       {tag.name}
