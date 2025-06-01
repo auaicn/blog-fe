@@ -157,11 +157,11 @@ export function LinkListItem({ link, isSelected, onClick }: Props) {
 
                 return (
                   <NextLink
+                    key={tag.id}
                     href={`/link/${slugify(tag.name)}`}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span
-                      key={tag.id}
                       className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity ${getTagColorClass(
                         tag.id
                       )}`}
