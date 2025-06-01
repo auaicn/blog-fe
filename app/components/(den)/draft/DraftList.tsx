@@ -12,7 +12,7 @@ export const DraftList = () => {
         {mockDrafts.map((post) => (
           <li key={post.title}>
             <Link
-              href={`/blog/${slugify(post.title)}`}
+              href={`/draft/${slugify(post.title)}`}
               className="block hover:underline"
             >
               <div className="font-medium">{post.title}</div>
